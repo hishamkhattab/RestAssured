@@ -1,5 +1,7 @@
 package parabankAPI;
 
+import io.restassured.RestAssured;
+import org.junit.Assert;
 import org.junit.Test;
 
 import static io.restassured.RestAssured.given;
@@ -19,5 +21,12 @@ public class ResponseData {
                 .and().assertThat().body("customer.address.zipCode", equalTo("90210"))
                 .and().assertThat().body("customer.phoneNumber", equalTo("310-447-4121"))
                 .and().assertThat().body("customer.ssn", equalTo("622-11-9999"));
+    }
+
+    @Test
+    public void validateInvalidResponse(){
+        String response = RestAssured.get("https://parabank.parasoft.com/parabank/services/bank/customers/12214").asString();
+        Assert.assertEquals(response, "Could not find customer #12214");
+
     }
 }
